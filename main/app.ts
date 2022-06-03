@@ -869,5 +869,159 @@ let netPrice3 = <number>getNetPrice(100, 0.05,false);
 console.log(typeof netPrice3);
 
 //TypeScript Generics
+function getRandomNumberElement(items: number[]): number {
+    let randomIndex = Math.floor(Math.random() * items.length);
+    return items[randomIndex];
+}
+// let numbers = [1, 5, 7, 4, 2, 9];
+// console.log(getRandomNumberElement(numbers));
 
+function getRandomStringElement(items: string[]): string {
+    let randomIndex = Math.floor(Math.random() * items.length);
+    return items[randomIndex];
+}
+// let colors = ['red', 'green', 'blue'];
+// console.log(getRandomStringElement(colors));
+function getRandomAnyElement(items: any[]): any {
+    let randomIndex = Math.floor(Math.random() * items.length);
+    return items[randomIndex];
+}
+// let numbers = [1, 5, 7, 4, 2, 9];
+// let colors = ['red', 'green', 'blue'];
+
+// console.log(getRandomAnyElement(numbers));
+// console.log(getRandomAnyElement(colors));
+
+function getRandomElement<T>(items: T[]): T {
+    let randomIndex = Math.floor(Math.random() * items.length);
+    return items[randomIndex];
+}
+// let numbers = [1, 5, 7, 4, 2, 9];
+// let randomEle = getRandomElement<number>(numbers); 
+// console.log(randomEle);
+let numbers = [1, 5, 7, 4, 2, 9];
+let randomEle = getRandomElement(numbers); 
+console.log(randomEle);
+
+function merge<U, V>(obj1: U, obj2: V) {
+    return {
+        ...obj1,
+        ...obj2
+    };
+}
+let result3 = merge(
+    { name: 'John' },
+    {age: 5 }
+);
+
+console.log(result3);
+
+//TypeScript Generic Constraints
+let person5 = merge(
+    { name: 'John' },
+    25
+);
+
+console.log(person5);
+
+function prop<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key];
+}
+let str = prop({ name: 'John' }, 'name');
+console.log(str);
+
+//TypeScript Generic Interfaces
+interface Pair<K, V> {
+    key: K;
+    value: V;
+}
+let montht: Pair<string, number> = {
+    key: 'Jan',
+    value: 1
+};
+console.log(montht);
+
+interface Collection<T> {
+    add(o: T): void;
+    remove(o: T): void;
+}
+class List<T> implements Collection<T>{
+    private items: T[] = [];
+
+    add(o: T): void {
+        this.items.push(o);
+    }
+    remove(o: T): void {
+        let index = this.items.indexOf(o);
+        if (index > -1) {
+            this.items.splice(index, 1);
+        }
+    }
+}
+let listt = new List<number>();
+
+for (let i = 0; i < 10; i++) {
+    listt.add(i);
+}
+console.log(listt);
+
+interface Options<T> {
+    [name: string]: T
+}
+
+let inputOptions: Options<boolean> = {
+    'disabled': false,
+    'visible': true
+};
+console.log(inputOptions);
+
+//TypeScript Generic Classes
+class Stack<T> {
+    private elements: T[] = [];
+
+    constructor(private size: number) {
+    }
+    isEmpty(): boolean {
+        return this.elements.length === 0;
+    }
+    isFull(): boolean {
+        return this.elements.length === this.size;
+    }
+    push(element: T): void {
+        if (this.elements.length === this.size) {
+            throw new Error('The stack is overflow!');
+        }
+        this.elements.push(element);
+
+    }
+    pop(): T {
+        if (this.elements.length == 0) {
+            throw new Error('The stack is empty!');
+        }
+        return this.elements.pop();
+    }
+}
+function randBetween(low: number, high: number): number {
+    return Math.floor(Math.random() * (high - low + 1) + low);
+}
+
+let numberr = new Stack<number>(5);
+
+while (!numberr.isFull()) {
+    let n = randBetween(1, 10);
+    console.log(`Push ${n} into the stack.`)
+    numberr.push(n);
+}
+
+let words = 'The quick brown fox jumps over the lazy dog'.split(' ');
+
+let wordStack = new Stack<string>(words.length);
+
+// push words into the stack
+words.forEach(word => wordStack.push(word));
+
+// pop words from the stack
+while (!wordStack.isEmpty()) {
+    console.log(wordStack.pop());
+}
 

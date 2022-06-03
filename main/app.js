@@ -13,6 +13,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 function getProduct(id) {
     return {
         id: id,
@@ -734,5 +745,122 @@ var netPrice = getNetPrice(100, 0.05, true);
 console.log(netPrice);
 var netPrice1 = getNetPrice(100, 0.05, false);
 console.log(netPrice1);
-var netPrice3 = getNetPrice(100, 0.05, true);
+var netPrice3 = getNetPrice(100, 0.05, false);
 console.log(typeof netPrice3);
+//TypeScript Generics
+function getRandomNumberElement(items) {
+    var randomIndex = Math.floor(Math.random() * items.length);
+    return items[randomIndex];
+}
+// let numbers = [1, 5, 7, 4, 2, 9];
+// console.log(getRandomNumberElement(numbers));
+function getRandomStringElement(items) {
+    var randomIndex = Math.floor(Math.random() * items.length);
+    return items[randomIndex];
+}
+// let colors = ['red', 'green', 'blue'];
+// console.log(getRandomStringElement(colors));
+function getRandomAnyElement(items) {
+    var randomIndex = Math.floor(Math.random() * items.length);
+    return items[randomIndex];
+}
+// let numbers = [1, 5, 7, 4, 2, 9];
+// let colors = ['red', 'green', 'blue'];
+// console.log(getRandomAnyElement(numbers));
+// console.log(getRandomAnyElement(colors));
+function getRandomElement(items) {
+    var randomIndex = Math.floor(Math.random() * items.length);
+    return items[randomIndex];
+}
+// let numbers = [1, 5, 7, 4, 2, 9];
+// let randomEle = getRandomElement<number>(numbers); 
+// console.log(randomEle);
+var numbers = [1, 5, 7, 4, 2, 9];
+var randomEle = getRandomElement(numbers);
+console.log(randomEle);
+function merge(obj1, obj2) {
+    return __assign(__assign({}, obj1), obj2);
+}
+var result3 = merge({ name: 'John' }, { age: 5 });
+console.log(result3);
+//TypeScript Generic Constraints
+var person5 = merge({ name: 'John' }, 25);
+console.log(person5);
+function prop(obj, key) {
+    return obj[key];
+}
+var str = prop({ name: 'John' }, 'name');
+console.log(str);
+var montht = {
+    key: 'Jan',
+    value: 1
+};
+console.log(montht);
+var List = /** @class */ (function () {
+    function List() {
+        this.items = [];
+    }
+    List.prototype.add = function (o) {
+        this.items.push(o);
+    };
+    List.prototype.remove = function (o) {
+        var index = this.items.indexOf(o);
+        if (index > -1) {
+            this.items.splice(index, 1);
+        }
+    };
+    return List;
+}());
+var listt = new List();
+for (var i_2 = 0; i_2 < 10; i_2++) {
+    listt.add(i_2);
+}
+console.log(listt);
+var inputOptions = {
+    'disabled': false,
+    'visible': true
+};
+console.log(inputOptions);
+//TypeScript Generic Classes
+var Stack = /** @class */ (function () {
+    function Stack(size) {
+        this.size = size;
+        this.elements = [];
+    }
+    Stack.prototype.isEmpty = function () {
+        return this.elements.length === 0;
+    };
+    Stack.prototype.isFull = function () {
+        return this.elements.length === this.size;
+    };
+    Stack.prototype.push = function (element) {
+        if (this.elements.length === this.size) {
+            throw new Error('The stack is overflow!');
+        }
+        this.elements.push(element);
+    };
+    Stack.prototype.pop = function () {
+        if (this.elements.length == 0) {
+            throw new Error('The stack is empty!');
+        }
+        return this.elements.pop();
+    };
+    return Stack;
+}());
+function randBetween(low, high) {
+    return Math.floor(Math.random() * (high - low + 1) + low);
+}
+var numberr = new Stack(5);
+while (!numberr.isFull()) {
+    var n = randBetween(1, 10);
+    console.log("Push ".concat(n, " into the stack."));
+    numberr.push(n);
+}
+var words = 'The quick brown fox jumps over the lazy dog'.split(' ');
+var wordStack = new Stack(words.length);
+// push words into the stack
+words.forEach(function (word) { return wordStack.push(word); });
+// pop words from the stack
+while (!wordStack.isEmpty()) {
+    console.log(wordStack.pop());
+}
